@@ -43,3 +43,102 @@ DELETE FROM employees WHERE personnel_number = "85";
 #Удалить сотрудников которые родились 12.05.1998
 DELETE FROM personal_data WHERE birthday = "1998-05-12";
 
+#Вывод всех мужчин
+SELECT *
+FROM employees
+WHERE gender = "Муж.";
+
+#Вывод ФИО сотрудников у которых отсутсвуют номера телефонов
+SELECT employees.full_name
+FROM employees
+WHERE phone_number IS NULL;
+
+#Вывод ФИО и номера телефонов сотрудников которые имеют опыт работы 3 года или 7 лет
+SELECT employees.full_name, employees.phone_number
+FROM employees
+WHERE work_experience = "3 года" OR work_experience = "7 лет";
+
+#Вывести номер приказа принятого в заданный год
+SELECT contract.grounds_for_admission
+FROM contract
+WHERE year(date_of_receipt) = '2010';
+
+#Вывод табельных номеров сотрудников которые работают в отделах с индексами от 1 до 3
+SELECT contract.employment_contract_number
+FROM contract
+WHERE iddepartment BETWEEN 1 AND 3;
+
+#Вывод специальности с высшем образованием
+SELECT diploma_of_education.speciality
+FROM diploma_of_education
+WHERE education = 'высшее';
+
+#Вывод типа повышения квалификации в выбранном ВУЗ'е
+SELECT informatio_about_professional_development.type_of_increase
+FROM informatio_about_professional_development
+WHERE institution_name = 'ВОЛГУ';
+
+#Вывод ИНН и СНИЛС сотрудников которые родились между 1969 и 1990
+SELECT personal_data.INN, personal_data.SNILS
+FROM personal_data
+WHERE year(birthday) BETWEEN 1969 AND 1990;
+
+#Вывод серии и номера паспорта сотрудников которые получили паспорт в УФМС России по городу Москве
+SELECT DISTINCT series_and_number_of_passport
+FROM personal_data
+WHERE passport_issued_by = 'УФМС России по городу Москве';
+
+#Вывод названий профессий в опеределенном интервале
+SELECT DISTINCT job_title
+FROM position
+WHERE idposition BETWEEN 1 AND 3;
+
+#Вывод индекса сотрудников у которых отпуск меньше 9 дней
+SELECT DISTINCT idemployees
+FROM vacation
+WHERE number_of_vacation_days < 9;
+
+#Вывод номер документа сотрудника который имеет льготу многодетного родителя
+SELECT DISTINCT document_number
+FROM social_benefits
+WHERE name_of_benefits = 'Многодетные матери или отцы';
+
+#Вывод серии и номера диплома сотрудников которые выпустились в 2005 году и имеют квалификацию Менеджер
+SELECT diploma_of_education.series_and_number
+FROM diploma_of_education
+WHERE year(date_of_issue) = 2005 AND qualification = 'Менеджер';
+
+#Вывод даты увольнения сотрудника по статье 77 ТК РФ
+SELECT dismissal.date_of_dismissal
+FROM dismissal
+WHERE article = '77 ТК РФ';
+
+#Вывод ФИО сотрудников у которых табельный номер больше 21
+SELECT employees.full_name
+FROM employees
+WHERE personnel_number > 21;
+
+#Вывод зарплаты сотрудников работающих в организации с индексом 2
+SELECT position_to_organization.salary
+FROM position_to_organization
+WHERE idorganization = 2;
+
+#Вывод индекса профессии сотрудника работающего в организации с индексом 1
+SELECT position_to_organization.idposition
+FROM position_to_organization
+WHERE idorganization = 1;
+
+#Вывод названия отдела и номер его телефона для выбраноой организации
+SELECT department.department_name, department.department_phone_number
+FROM department
+WHERE idorganization = 1;
+
+#Вывод ФИО сотрудников которые являюст женщинами и имеют стаж работы 17 лет
+SELECT employees.full_name
+FROM employees
+WHERE gender = 'Жен.' AND work_experience = '17 лет';
+
+#Вывод приказа о приеме на работу сотрудников работающих в отделе с индексом 3
+SELECT contract.grounds_for_admission
+FROM contract
+WHERE iddepartment = 3;
