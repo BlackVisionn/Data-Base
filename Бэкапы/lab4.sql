@@ -27,3 +27,19 @@ WHERE department_name = "Бухгалтерия";
 UPDATE position_to_organization
 SET salary = salary + 2000
 WHERE salary > 45000;
+
+#Удалить сотрудников у которых опыт работы 1 месяц
+DELETE FROM employees WHERE work_experience = "1 месяц";
+
+#Удалить сотрудников у которых среднее образование
+DELETE FROM diploma_of_education WHERE education = "среднее";
+
+#Удалить сотрудников у которых Учебный отпуск
+DELETE FROM vacation WHERE type_of_vacation = "Учебный";
+
+#Удалить сотрудника у которого табельный номер 85
+DELETE FROM employees WHERE personnel_number = "85";
+
+#Удалить сотрудников которые родились 12.05.1998
+DELETE FROM personal_data WHERE birthday = "1998-05-12";
+
