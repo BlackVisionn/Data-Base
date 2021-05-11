@@ -142,3 +142,28 @@ WHERE gender = 'Жен.' AND work_experience = '17 лет';
 SELECT contract.grounds_for_admission
 FROM contract
 WHERE iddepartment = 3;
+
+#Вывод организаций в названии которых содержится Эспада
+SELECT *
+FROM organization
+WHERE name_of_organization LIKE 'Эспада%';
+
+#Вывод сотрудников с фамилией Кирилюк
+SELECT *
+FROM employees
+WHERE full_name LIKE 'Кирилюк%';
+
+#Вывод номера телефонов сотрудников которые работают пару месяцев
+SELECT employees.phone_number
+FROM employees
+WHERE work_experience LIKE '%месяц%';
+
+#Вывод табельных номеров и адреса сотрудников которые живут по адресу Волгоград г, Полухина ул
+SELECT employees.personnel_number, employees.home_address
+FROM employees
+WHERE home_address LIKE 'Волгоград г, Полухина ул%';
+
+#Вывод даты выдачи паспорта сотрудников с серией паспорта 18 15
+SELECT personal_data.when_the_passport_was_issued
+FROM personal_data
+WHERE series_and_number_of_passport LIKE '18 15%';
