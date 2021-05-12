@@ -167,3 +167,23 @@ WHERE home_address LIKE 'Волгоград г, Полухина ул%';
 SELECT personal_data.when_the_passport_was_issued
 FROM personal_data
 WHERE series_and_number_of_passport LIKE '18 15%';
+
+#Скопировать в новую таблицу сотрудников, которые являются мужчинами
+INSERT employees_muj (idemployees_muj, full_name, gender, experience, address, phone_num, personnel_num)
+SELECT *
+FROM employees
+WHERE gender = 'Муж.';
+
+#Скопировать в новую таблицу профессии ЗП которых больше 45000
+INSERT big_salary (idbig_salary, position, big_salary)
+SELECT position_to_organization.idposition_to_organization, position_to_organization.idposition, position_to_organization.salary
+FROM position_to_organization
+WHERE salary > 45000;
+
+#Скопировать в новую таблицу серии и номер паспорта сотрудников которые получали паспорт от УФМС
+INSERT ufms_pass (idufms_pass, series_and_number)
+SELECT personal_data.idpersonal_data, personal_data.series_and_number_of_passport
+FROM personal_data
+WHERE passport_issued_by LIKE 'УФМС%';
+
+
