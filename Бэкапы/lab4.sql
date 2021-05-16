@@ -186,4 +186,101 @@ SELECT personal_data.idpersonal_data, personal_data.series_and_number_of_passpor
 FROM personal_data
 WHERE passport_issued_by LIKE 'УФМС%';
 
+#Вывести колличество мужчин и женщин
+SELECT gender, COUNT(gender) AS count_gender
+FROM employees
+GROUP BY gender HAVING gender = 'Муж.' OR gender = 'Жен.';
+
+#Вывести сред зп всех сотрудников из определенной организации
+SELECT idorganization, AVG(salary) AS avg_salary
+FROM position_to_organization
+GROUP BY idorganization;
+
+#Вывести самую большуб ЗП из определенной организации
+SELECT idorganization, MAX(salary) AS max_salary
+FROM position_to_organization
+GROUP BY idorganization;
+
+#Вывести самую маленькую ЗП из определенной организации
+SELECT idorganization, MIN(salary) AS min_salary
+FROM position_to_organization
+GROUP BY idorganization;
+
+#Вывести кол-во сотрудников которые повышали квалификацию в 2021 году
+SELECT idemployees, date_of_increase
+FROM informatio_about_professional_development
+GROUP BY date_of_increase HAVING YEAR(date_of_increase) = '2021'
+ORDER BY idemployees ASC;
+
+#Вывести колличество сотрудников с определенным образование
+SELECT education, COUNT(education) AS count_education
+FROM diploma_of_education
+GROUP BY education;
+
+#Вывести кол-во сотрудников у которых ставка 1
+SELECT rate, COUNT(employment_contract_number) AS count_rate
+FROM contract
+GROUP BY rate HAVING rate = '1';
+
+#Вывести колличество сотрудников с определенной специальностью
+SELECT speciality, COUNT(speciality) AS count_speciality
+FROM diploma_of_education
+GROUP BY speciality;
+
+#Вывести колличество сотрудников которые повышали квалификацию в опеределенном ВУЗе
+SELECT institution_name, COUNT(institution_name) AS count_institution
+FROM informatio_about_professional_development
+GROUP BY institution_name;
+
+#Вывести ФИО сотрудников которые живут в Волгограде
+SELECT full_name, home_address
+FROM employees
+GROUP BY home_address HAVING home_address LIKE 'Волгоград%';
+
+#Вывести ФИО сотрудников у которых стаж работы несколько лет
+SELECT full_name, work_experience
+FROM employees
+GROUP BY work_experience HAVING work_experience LIKE '%лет';
+
+#Вывести табельные номера сотрудников у которых стаж работы несколько месяцев
+SELECT personnel_number, work_experience
+FROM employees
+GROUP BY work_experience HAVING work_experience LIKE '%месяц%';
+
+#Вывести ФИО мужчин
+SELECT full_name, gender
+FROM employees
+GROUP BY full_name HAVING gender = 'Муж.';
+
+#Вывести по убыванию индекс сотрудника и вид повышения квалификации
+SELECT idemployees, type_of_increase
+FROM informatio_about_professional_development
+GROUP BY idemployees
+ORDER BY idemployees DESC;
+
+#Вывести серию и номера паспорта сотрудников которые получили паспорт от УФМС
+SELECT series_and_number_of_passport, passport_issued_by
+FROM personal_data
+GROUP BY series_and_number_of_passport HAVING passport_issued_by LIKE 'УФМС%'
+ORDER BY series_and_number_of_passport ASC;
+
+#Вывести колличество сотрудников с определенными социальными льготами
+SELECT name_of_benefits, COUNT(name_of_benefits) AS count_benefits
+FROM social_benefits
+GROUP BY name_of_benefits;
+
+#Вывести индекс сотрудника и льготы которые он имеет
+SELECT idemployees, name_of_benefits
+FROM social_benefits
+GROUP BY idemployees;
+
+#Вывести кол-во сотрудников которые имеют отпуск определенного вида
+SELECT type_of_vacation, COUNT(type_of_vacation) AS count_vacation_type
+FROM vacation
+GROUP BY type_of_vacation;
+
+#Вывести приказы и соответсвующие им виды отпуска
+SELECT basis_of_vacation, type_of_vacation
+FROM vacation
+GROUP BY basis_of_vacation;
 
