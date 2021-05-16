@@ -284,3 +284,14 @@ SELECT basis_of_vacation, type_of_vacation
 FROM vacation
 GROUP BY basis_of_vacation;
 
+#Вывести среднее кол-во дней отпуска определенного вида
+SELECT type_of_vacation, AVG(number_of_vacation_days) AS avg_vacation_days
+FROM vacation
+GROUP BY type_of_vacation;
+
+#Вывести номер трудового договора и соотвествующие ему основания для приема
+SELECT employment_contract_number, grounds_for_admission
+FROM contract
+GROUP BY employment_contract_number
+ORDER BY employment_contract_number ASC;
+
