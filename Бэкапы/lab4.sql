@@ -389,3 +389,18 @@ SELECT full_name, employment_contract_number, date_of_receipt, grounds_for_admis
 FROM contract
 JOIN employees ON contract.idcontract = employees.idemployees
 ORDER BY employment_contract_number ASC;
+
+#Номер приказа и дата подписания договора
+SELECT grounds_for_admission FROM contract
+UNION
+SELECT date_of_receipt FROM contract;
+
+#Адрес проживания сотрудника и где был выдан паспорт
+SELECT home_address FROM employees
+UNION
+SELECT passport_issued_by FROM personal_data;
+
+#Название отдела и номера отделов
+SELECT department_name FROM department
+UNION
+SELECT department_phone_number FROM department;
