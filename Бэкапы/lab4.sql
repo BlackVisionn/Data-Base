@@ -404,3 +404,12 @@ SELECT passport_issued_by FROM personal_data;
 SELECT department_name FROM department
 UNION
 SELECT department_phone_number FROM department;
+
+#Вывести название отделов для определенных организаций
+SELECT idorganization, GROUP_CONCAT(department_name) AS department_name FROM department GROUP BY idorganization;
+
+#Вывести ФИО сотрудников определенного пола
+SELECT gender, GROUP_CONCAT(full_name SEPARATOR ', ') as name FROM employees GROUP BY gender;
+
+#Вывести виды повышения квалификации определенного ВУЗ'а
+SELECT institution_name, GROUP_CONCAT(type_of_increase SEPARATOR ', ') as name FROM informatio_about_professional_development GROUP BY institution_name;
