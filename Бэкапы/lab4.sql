@@ -413,3 +413,49 @@ SELECT gender, GROUP_CONCAT(full_name SEPARATOR ', ') as name FROM employees GRO
 
 #Вывести виды повышения квалификации определенного ВУЗ'а
 SELECT institution_name, GROUP_CONCAT(type_of_increase SEPARATOR ', ') as name FROM informatio_about_professional_development GROUP BY institution_name;
+
+#Показать номер трудового договора сотрудника
+SELECT full_name, employment_contract_number
+FROM contract
+JOIN employees ON contract.idcontract = employees.idemployees;
+
+#Показать отпуска сотрудника
+SELECT full_name, type_of_vacation, vacation_start_date, number_of_vacation_days
+FROM vacation
+JOIN employees ON vacation.idvacation = employees.idemployees;
+
+#Вывести сотрудников имеющие социальные льготы
+SELECT full_name AS "fio"
+FROM social_benefits
+JOIN employees ON social_benefits.idsocial_benefits = employees.idemployees;
+
+#Показать среднюю зарплату сотрудников
+SELECT AVG(salary) AS "Средняя ЗП сотрудников"
+FROM position_to_organization;
+
+#Показать число работающих сотрудников
+SELECT full_name
+FROM employees
+LEFT JOIN dismissal ON employees.idemployees = dismissal.iddismissal WHERE reason_for_dismissal IS NULL;
+ 
+#Показать число сотрудников в отпуске
+SELECT full_name
+FROM employees
+LEFT JOIN vacation ON employees.idemployees = vacation.idvacation WHERE type_of_vacation IS NULL;
+
+#Показать число уволенных сотрудников
+SELECT full_name
+FROM employees
+JOIN dismissal ON employees.idemployees = dismissal.iddismissal;
+
+#Показать отделы в которых работают сотрудники
+SELECT full_name, department_name
+FROM employees
+JOIN department ON employees.idemployees = department.iddepartment;
+
+#Показать должности сотрудника
+SELECT full_name, job_title
+FROM employees
+JOIN position_to_organization ON employees.idemployees = position_to_organization.idposition_to_organization
+JOIN positionn ON position_to_organization.idposition = positionn.idposition;
+
