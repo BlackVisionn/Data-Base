@@ -459,3 +459,28 @@ FROM employees
 JOIN position_to_organization ON employees.idemployees = position_to_organization.idposition_to_organization
 JOIN positionn ON position_to_organization.idposition = positionn.idposition;
 
+#Вся информация о контракте без id
+SELECT full_name, gender, work_experience, home_address, home_address, phone_number, personnel_number, grounds_for_admission, rate, date_of_receipt, employment_contract_number, department_name, department_phone_number, job_title, name_of_organization, salary
+FROM contract
+JOIN employees ON contract.idcontract = employees.idemployees
+JOIN department ON contract.idcontract = department.iddepartment
+JOIN position_to_organization ON contract.idcontract = position_to_organization.idposition_to_organization
+JOIN positionn ON position_to_organization.idposition = positionn.idposition
+JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization;
+
+#Средний возраст сотрудников в департаменте организации
+SELECT name_of_organization, department_name, AVG((YEAR(CURRENT_DATE)-YEAR(birthday))-(RIGHT(CURRENT_DATE,5)<RIGHT(birthday,5))) AS avg_age
+FROM employees
+JOIN personal_data ON employees.idemployees = personal_data.idpersonal_data
+JOIN contract ON employees.idemployees = contract.idcontract
+JOIN department ON contract.idcontract = department.iddepartment
+JOIN position_to_organization ON contract.idcontract = position_to_organization.idposition_to_organization
+JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization
+GROUP BY department_name;
+
+#В организации вывести сотрудника с самой высокой ЗП
+SELECT name_of_organization, full_name, MAX(salary) as max_salary
+FROM position_to_organization
+JOIN employees ON position_to_organization.idposition_to_organization = employees.idemployees
+JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization
+GROUP BY name_of_organization;
