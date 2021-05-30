@@ -305,22 +305,16 @@ SELECT full_name, gender, birthday
 FROM personal_data
 JOIN employees ON personal_data.idpersonal_data = employees.idemployees;
 
-#Вывести ФИО сотрудника, его табельный номер и отдел в котором он работает
-SELECT full_name, employment_contract_number, department_name
-FROM contract
-JOIN employees ON contract.idemployee = employees.idemployees
-JOIN department ON contract.iddepartment = department.iddepartment;
-
 #Вывести ФИО и дату начала отпуска (если есть)
 SELECT full_name, vacation_start_date
 FROM employees
-LEFT JOIN vacation ON employees.idemployees = vacation.idvacation
+LEFT JOIN vacation ON employees.idemployees = vacation.idemployees
 ORDER BY vacation_start_date DESC;
 
 #Вывести ФИО и льготы(если имеются)
 SELECT full_name, name_of_benefits
 FROM employees
-LEFT JOIN social_benefits ON employees.idemployees = social_benefits.idsocial_benefits
+LEFT JOIN social_benefits ON employees.idemployees = social_benefits.idemployees
 ORDER BY name_of_benefits DESC;
 
 #Вывести ФИО сотрудника, его табельный номер и отдел в котором он работает
@@ -338,13 +332,13 @@ LEFT JOIN organizationn ON position_to_organization.idorganization = organizatio
 #ФИО и вид повышения квалификации (если имеется)
 SELECT full_name, type_of_increase
 FROM employees
-LEFT JOIN informatio_about_professional_development ON employees.idemployees = informatio_about_professional_development.idinformatio_about_professional_development
+LEFT JOIN informatio_about_professional_development ON employees.idemployees = informatio_about_professional_development.idemployees
 ORDER BY type_of_increase DESC;
 
 #Вывести приказы сотрудников принятых в соответсвующий отдел на определенную должность и в определенной организации
 SELECT grounds_for_admission, department_name, job_title, name_of_organization
 FROM contract
-JOIN department ON contract.idcontract = department.iddepartment
+JOIN department ON contract.iddepartment = department.iddepartment
 JOIN position_to_organization ON contract.idposition_to_organization = position_to_organization.idposition_to_organization
 JOIN positionn ON position_to_organization.idposition = positionn.idposition
 JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization;
@@ -352,25 +346,28 @@ JOIN organizationn ON position_to_organization.idorganization = organizationn.id
 #Вывести ФИО, ставку и зп сотрудника
 SELECT full_name, rate, salary
 FROM contract
-JOIN employees ON contract.idcontract = employees.idemployees
+JOIN employees ON contract.idemployee = employees.idemployees
 JOIN position_to_organization ON contract.idposition_to_organization = position_to_organization.idposition_to_organization
-ORDER BY rate ASC;
+ORDER BY rate DESC;
 
 #Вывести отдел, его телефон и название организации
 SELECT department_name, department_phone_number, name_of_organization
 FROM department
-JOIN organizationn ON department.idorganization = organizationn.idorganization
+JOIN contract ON department.iddepartment = contract.iddepartment
+JOIN position_to_organization ON contract.idposition_to_organization = position_to_organization.idposition_to_organization
+JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization
 ORDER BY name_of_organization DESC;
 
 #Вывести всю информацию об образовании сотрудника
 SELECT full_name, education, speciality, qualification, date_of_issue
 FROM diploma_of_education
-JOIN employees ON diploma_of_education.iddiploma_of_education = employees.idemployees;
+JOIN employees ON diploma_of_education.idemployees = employees.idemployees;
 
 #Вывести ФИО и причину увольнения (если имеется)
 SELECT full_name, reason_for_dismissal
 FROM employees
-LEFT JOIN dismissal ON employees.idemployees = dismissal.iddismissal;
+JOIN contract ON employees.idemployees = contract.idemployee
+LEFT JOIN dismissal ON contract.idcontract = dismissal.iddismissal;
 
 #Вывести паспортные данные сотрудника
 SELECT full_name, series_and_number_of_passport, passport_issued_by, when_the_passport_was_issued
@@ -381,13 +378,13 @@ ORDER BY full_name ASC;
 #Вывести информацию о сотрудниках имеющие льготы
 SELECT full_name, name_of_benefits, document_number, date_of_issue_of_the_document
 FROM employees
-JOIN social_benefits ON employees.idemployees = social_benefits.idsocial_benefits
+JOIN social_benefits ON employees.idemployees = social_benefits.idemployees
 ORDER BY full_name ASC;
 
 #Вывести всю информацию о сотруднике который устроился на работу
 SELECT full_name, employment_contract_number, date_of_receipt, grounds_for_admission
 FROM contract
-JOIN employees ON contract.idcontract = employees.idemployees
+JOIN employees ON contract.idemployee = employees.idemployees
 ORDER BY employment_contract_number ASC;
 
 #Номер приказа и дата подписания договора
@@ -417,17 +414,17 @@ SELECT institution_name, GROUP_CONCAT(type_of_increase SEPARATOR ', ') as name F
 #Показать номер трудового договора сотрудника
 SELECT full_name, employment_contract_number
 FROM contract
-JOIN employees ON contract.idcontract = employees.idemployees;
+JOIN employees ON contract.idemployee = employees.idemployees;
 
 #Показать отпуска сотрудника
 SELECT full_name, type_of_vacation, vacation_start_date, number_of_vacation_days
 FROM vacation
-JOIN employees ON vacation.idvacation = employees.idemployees;
+JOIN employees ON vacation.idemployees = employees.idemployees;
 
 #Вывести сотрудников имеющие социальные льготы
 SELECT full_name AS "fio"
 FROM social_benefits
-JOIN employees ON social_benefits.idsocial_benefits = employees.idemployees;
+JOIN employees ON social_benefits.idemployees = employees.idemployees;
 
 #Показать среднюю зарплату сотрудников
 SELECT AVG(salary) AS "Средняя ЗП сотрудников"
@@ -436,51 +433,56 @@ FROM position_to_organization;
 #Показать число работающих сотрудников
 SELECT full_name
 FROM employees
-LEFT JOIN dismissal ON employees.idemployees = dismissal.iddismissal WHERE reason_for_dismissal IS NULL;
+JOIN contract ON employees.idemployees = contract.idemployee
+LEFT JOIN dismissal ON contract.idcontract = dismissal.iddismissal WHERE reason_for_dismissal IS NULL;
  
-#Показать число сотрудников в отпуске
+#Показать число сотрудников не в отпуске
 SELECT full_name
 FROM employees
-LEFT JOIN vacation ON employees.idemployees = vacation.idvacation WHERE type_of_vacation IS NULL;
+LEFT JOIN vacation ON employees.idemployees = vacation.idemployees WHERE type_of_vacation IS NULL;
 
 #Показать число уволенных сотрудников
 SELECT full_name
 FROM employees
-JOIN dismissal ON employees.idemployees = dismissal.iddismissal;
+JOIN contract ON employees.idemployees = contract.idemployee
+JOIN dismissal ON contract.idcontract = dismissal.iddismissal;
 
 #Показать отделы в которых работают сотрудники
 SELECT full_name, department_name
 FROM employees
-JOIN department ON employees.idemployees = department.iddepartment;
+JOIN contract ON employees.idemployees = contract.idemployee
+JOIN department ON contract.iddepartment = department.iddepartment;
 
 #Показать должности сотрудника
 SELECT full_name, job_title
 FROM employees
-JOIN position_to_organization ON employees.idemployees = position_to_organization.idposition_to_organization
+JOIN contract ON employees.idemployees = contract.idemployee
+JOIN position_to_organization ON contract.idposition_to_organization = position_to_organization.idposition_to_organization
 JOIN positionn ON position_to_organization.idposition = positionn.idposition;
 
 #Вся информация о контракте без id
 SELECT full_name, gender, work_experience, home_address, home_address, phone_number, personnel_number, grounds_for_admission, rate, date_of_receipt, employment_contract_number, department_name, department_phone_number, job_title, name_of_organization, salary
-FROM contract
-JOIN employees ON contract.idcontract = employees.idemployees
-JOIN department ON contract.idcontract = department.iddepartment
-JOIN position_to_organization ON contract.idcontract = position_to_organization.idposition_to_organization
+FROM employees
+JOIN contract ON employees.idemployees = contract.idemployee
+JOIN department ON contract.iddepartment = department.iddepartment
+JOIN position_to_organization ON contract.idposition_to_organization = position_to_organization.idposition_to_organization
 JOIN positionn ON position_to_organization.idposition = positionn.idposition
 JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization;
 
 #Средний возраст сотрудников в департаменте организации
 SELECT name_of_organization, department_name, AVG((YEAR(CURRENT_DATE)-YEAR(birthday))-(RIGHT(CURRENT_DATE,5)<RIGHT(birthday,5))) AS avg_age
 FROM employees
-JOIN personal_data ON employees.idemployees = personal_data.idpersonal_data
-JOIN contract ON employees.idemployees = contract.idcontract
-JOIN department ON contract.idcontract = department.iddepartment
-JOIN position_to_organization ON contract.idcontract = position_to_organization.idposition_to_organization
+JOIN contract ON employees.idemployees = contract.idemployee
+JOIN department ON contract.iddepartment = department.iddepartment
+JOIN position_to_organization ON contract.idposition_to_organization = position_to_organization.idposition_to_organization
 JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization
+JOIN personal_data ON employees.idemployees = personal_data.idpersonal_data
 GROUP BY department_name;
 
 #В организации вывести сотрудника с самой высокой ЗП
 SELECT name_of_organization, full_name, MAX(salary) as max_salary
-FROM position_to_organization
-JOIN employees ON position_to_organization.idposition_to_organization = employees.idemployees
+FROM employees
+JOIN contract ON employees.idemployees = contract.idemployee
+JOIN position_to_organization ON contract.idposition_to_organization = position_to_organization.idposition_to_organization
 JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization
 GROUP BY name_of_organization;
