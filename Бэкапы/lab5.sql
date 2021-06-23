@@ -154,4 +154,38 @@ DELIMITER ;
 
 SELECT count_employee_dismissal('penatibus') AS count_employee_article
 FROM employees
-GROUP BY count_employee_article;  
+GROUP BY count_employee_article;
+
+# Вывод сотрудников и их зарплат
+CREATE VIEW employees_salary
+AS
+SELECT full_name, salary
+FROM employees
+JOIN contract ON employees.idemployees = contract.idemployee
+JOIN department ON contract.iddepartment = department.iddepartment
+JOIN position_to_organization ON contract.idposition_to_organization = position_to_organization.idposition_to_organization;
+
+SELECT * FROM employees_salary;
+
+# Вывод принятых сотрудников с датой приема, основанием приема и организацией в которой он работает
+CREATE VIEW employees_contract
+AS
+SELECT full_name, date_of_receipt, grounds_for_admission, name_of_organization
+FROM employees
+JOIN contract ON employees.idemployees = contract.idemployee
+JOIN position_to_organization ON contract.idposition_to_organization = position_to_organization.idposition_to_organization
+JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization;
+
+SELECT * FROM employees_contract
+ORDER BY date_of_receipt ASC;
+
+# Вывод сотрудника, дату начала отпуска и кол-во дней отпуска
+CREATE VIEW employees_vacation
+AS
+SELECT full_name, vacation_start_date, number_of_vacation_days
+FROM employees
+JOIN vacation ON employees.idemployees = vacation.idemployees;
+
+SELECT * FROM employees_vacation
+ORDER BY number_of_vacation_days DESC;
+
