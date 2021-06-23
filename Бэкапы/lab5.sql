@@ -89,4 +89,69 @@ DELIMITER ;
 CALL Show_double_rate(2,'ac leo', @count_employees);
 SELECT @count_employees;
 
+# Рассчитать кол-во сотрудников в каждой организации
+DELIMITER $$
+CREATE FUNCTION organization_employees_count(
+	organization_name VARCHAR(45)
+)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+	DECLARE count INT;
+    SELECT COUNT(idemployee)
+    INTO count
+    FROM employees
+	JOIN contract ON employees.idemployees = contract.idemployee	
+	JOIN position_to_organization ON contract.idposition_to_organization = position_to_organization.idposition_to_organization	
+	JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization
+    WHERE name_of_organization = organization_name;
+RETURN count;
+END $$
+DELIMITER ;
 
+SELECT name_of_organization AS organization_name, organization_employees_count(name_of_organization) AS count_employee
+FROM organizationn;
+
+# Рассчитать кол-во сотрудников с определенным образованием
+DELIMITER $$
+CREATE FUNCTION count_employee_education(
+	employee_education VARCHAR(45)
+)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+	DECLARE count INT;
+    SELECT COUNT(idemployees)
+    INTO count
+    FROM diploma_of_education	
+    WHERE education = employee_education;
+RETURN count;
+END $$
+DELIMITER ;
+
+SELECT count_employee_education('morbi') AS count_employee
+FROM diploma_of_education
+GROUP BY count_employee;
+
+# Рассчитать кол-во сотрудников уволенных по определенной статье
+DELIMITER $$
+CREATE FUNCTION count_employee_dismissal(
+	employee_article VARCHAR(45)
+)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+	DECLARE count INT;
+    SELECT COUNT(idemployees)
+    INTO count
+    FROM employees
+    JOIN contract ON employees.idemployees = contract.idemployee
+	JOIN dismissal ON contract.idcontract = dismissal.iddismissal	
+    WHERE article = employee_article;
+RETURN count;
+END $$
+DELIMITER ;
+
+SELECT count_employee_dismissal('penatibus') AS count_employee_article
+FROM employees
+GROUP BY count_employee_article;  
