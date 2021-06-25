@@ -65,7 +65,7 @@ namespace Human_Resources_Department_DB
 
         }
         private void update_btn_Click(object sender, EventArgs e)
-        {            
+        {           
             MySqlCommand updateEmployeesCommand = new MySqlCommand("UPDATE employees SET full_name=@full_name, gender=@gender, work_experience=@work_experience, home_address=@home_address, phone_number=@phone_number, personnel_number=@personnel_number WHERE idemployees=@id", connection);
 
             updateEmployeesCommand.Parameters.AddWithValue("id", id);
@@ -75,17 +75,16 @@ namespace Human_Resources_Department_DB
             updateEmployeesCommand.Parameters.AddWithValue("home_address", Address_textBox.Text);
             updateEmployeesCommand.Parameters.AddWithValue("phone_number", Phone_textBox.Text);
             updateEmployeesCommand.Parameters.AddWithValue("personnel_number", Number_textBox.Text);
-                        
+
             try
             {
                 updateEmployeesCommand.ExecuteNonQuery();                
                 Close();                
-            }
+            }            
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
         }
 
         private void cancel_bth_Click(object sender, EventArgs e)

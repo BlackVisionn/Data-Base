@@ -15,7 +15,7 @@ namespace Human_Resources_Department_DB
 {
     public partial class Form1 : Form
     {
-        bool type; // если true то таблица с сотрудниками, если false с личными данными
+        int type; // если true то таблица с сотрудниками, если false с личными данными
         public Form1()
         {
             InitializeComponent();
@@ -28,7 +28,7 @@ namespace Human_Resources_Department_DB
             // Открытие подключения БД
             if (!(connection != null && connection.State != ConnectionState.Closed))
             connection.Open();
-            if (type == true)
+            if (type == 1)
             {
                 DataBase.Columns.Clear();
                 // Показать сетку
@@ -57,7 +57,7 @@ namespace Human_Resources_Department_DB
 
                 LoadData();
             }
-            else
+            else if (type == 2)
             {
                 DataBase.Columns.Clear();
                 // Показать сетку
@@ -84,6 +84,49 @@ namespace Human_Resources_Department_DB
 
                 LoadData();
             }
+            else if (type == 3)
+            {
+                DataBase.Columns.Clear();
+                // Показать сетку
+                DataBase.GridLines = true;
+
+                // Выделение целой строки при нажатии
+                DataBase.FullRowSelect = true;
+
+                DataBase.View = View.Details;
+
+                DataBase.Columns.Add("Организация");
+                DataBase.Columns.Add("Средняя заработная плата");                
+
+                DataBase.Columns[0].Width = 100;
+                DataBase.Columns[1].Width = 200;
+                
+
+                LoadData();
+            }
+            else if (type == 4)
+            {
+                DataBase.Columns.Clear();
+                // Показать сетку
+                DataBase.GridLines = true;
+
+                // Выделение целой строки при нажатии
+                DataBase.FullRowSelect = true;
+
+                DataBase.View = View.Details;
+
+                DataBase.Columns.Add("ФИО Сотрудника");
+                DataBase.Columns.Add("Дата начала отпуска");
+                DataBase.Columns.Add("Количество дней отпуска");
+
+                DataBase.Columns[0].Width = 150;
+                DataBase.Columns[1].Width = 180;
+                DataBase.Columns[2].Width = 200;
+
+
+                LoadData();
+            }
+
         }
 
 
@@ -96,7 +139,7 @@ namespace Human_Resources_Department_DB
         // Загрузить данные из БД
         public void LoadData()
         {
-            if (type == true)
+            if (type == 1)
             {
                 MySqlDataReader sqlReader = null;
 
@@ -133,7 +176,7 @@ namespace Human_Resources_Department_DB
                     }
                 }
             }
-            else
+            else if (type == 2)
             {
                 MySqlDataReader sqlReader = null;
 
@@ -169,17 +212,82 @@ namespace Human_Resources_Department_DB
                     }
                 }
             }
+            else if (type == 3)
+            {
+                MySqlDataReader sqlReader = null;
+
+                MySqlCommand getAvgSalaryCommand = new MySqlCommand("SELECT name_of_organization, AVG (salary) AS avg_salary FROM position_to_organization JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization GROUP BY name_of_organization;", connection);
+
+                try
+                {
+                    sqlReader = getAvgSalaryCommand.ExecuteReader();
+
+                    while (sqlReader.Read())
+                    {
+                        ListViewItem item = new ListViewItem(new string[] {
+                        Convert.ToString(sqlReader["name_of_organization"]),
+                        Convert.ToString(sqlReader["avg_salary"])
+                    });
+
+                        DataBase.Items.Add(item);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (sqlReader != null && !sqlReader.IsClosed)
+                    {
+                        sqlReader.Close();
+                    }
+                }
+            }
+            else if (type == 4)
+            {
+                MySqlDataReader sqlReader = null;
+
+                MySqlCommand getVacationEmployeesCommand = new MySqlCommand("SELECT full_name, vacation_start_date, number_of_vacation_days FROM employees JOIN vacation ON employees.idemployees = vacation.idemployees WHERE type_of_vacation IS NOT NULL ORDER BY number_of_vacation_days DESC;", connection);
+
+                try
+                {
+                    sqlReader = getVacationEmployeesCommand.ExecuteReader();
+
+                    while (sqlReader.Read())
+                    {
+                        ListViewItem item = new ListViewItem(new string[] {
+                        Convert.ToString(sqlReader["full_name"]),
+                        Convert.ToString(sqlReader["vacation_start_date"]),
+                        Convert.ToString(sqlReader["number_of_vacation_days"])
+                    });
+
+                        DataBase.Items.Add(item);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (sqlReader != null && !sqlReader.IsClosed)
+                    {
+                        sqlReader.Close();
+                    }
+                }
+            }
         }  
 
 
         private void Insert_StripButton_Click(object sender, EventArgs e)
         {
-            if (type == true)
+            if (type == 1)
             {
                 INSERT insert = new INSERT(connection);
                 insert.Show();
             }
-            else
+            else if(type == 2)
             {
                 INSERT_PERS insert_pers = new INSERT_PERS(connection);
                 insert_pers.Show();
@@ -189,21 +297,22 @@ namespace Human_Resources_Department_DB
 
         private void Update_StripButton_Click(object sender, EventArgs e)
         {
-            if (type == true)
+            if (type == 1)
             {
                 if (DataBase.SelectedItems.Count > 0)
                 {
 
                     UPDATE update = new UPDATE(connection, Convert.ToInt32(DataBase.SelectedItems[0].SubItems[0].Text));
 
-                    update.Show();
+                    update.Show();                    
                 }
                 else
                 {
                     MessageBox.Show("Ни одна строка не была выделена!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else
+            
+            else if(type == 2)
             {
                 if (DataBase.SelectedItems.Count > 0)
                 {
@@ -222,7 +331,7 @@ namespace Human_Resources_Department_DB
 
         private void Delete_StripButton_Click(object sender, EventArgs e)
         {
-            if(type == true)
+            if(type == 1)
             {
                 if (DataBase.SelectedItems.Count > 0)
                 {
@@ -253,7 +362,7 @@ namespace Human_Resources_Department_DB
                     MessageBox.Show("Ни одна строка не была выделена!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else
+            else if (type == 2)
             {
                 if (DataBase.SelectedItems.Count > 0)
                 {
@@ -297,10 +406,16 @@ namespace Human_Resources_Department_DB
         {
             DataBase.Items.Clear();
 
-            type = true;
+            type = 1;
 
-            Show_Vacations.Enabled = true;
+            avg_salary.Enabled = true;
+            employees_vacation.Enabled = true;
             Show_Employees.Enabled = false;
+            Show_Vacations.Enabled = true;
+            Insert_StripButton.Enabled = true;
+            Update_StripButton.Enabled = true;
+            Delete_StripButton.Enabled = true;
+            Update_DB.Enabled = true;
 
             Form1_Load();
         }
@@ -309,10 +424,52 @@ namespace Human_Resources_Department_DB
         {
             DataBase.Items.Clear();
 
-            type = false;
+            type = 2;
 
+            avg_salary.Enabled = true;
+            employees_vacation.Enabled = true;
             Show_Employees.Enabled = true;
             Show_Vacations.Enabled = false;
+            Insert_StripButton.Enabled = true;
+            Update_StripButton.Enabled = true;
+            Delete_StripButton.Enabled = true;
+            Update_DB.Enabled = true;
+
+            Form1_Load();
+        }
+
+        private void avg_salary_Click(object sender, EventArgs e)
+        {
+            DataBase.Items.Clear();
+
+            type = 3;
+
+            avg_salary.Enabled = false;
+            employees_vacation.Enabled = true;
+            Show_Employees.Enabled = true;
+            Show_Vacations.Enabled = true;
+            Insert_StripButton.Enabled = false;
+            Update_StripButton.Enabled = false;
+            Delete_StripButton.Enabled = false;
+            Update_DB.Enabled = false;
+
+            Form1_Load();
+        }
+
+        private void employees_vacation_Click(object sender, EventArgs e)
+        {
+            DataBase.Items.Clear();
+
+            type = 4;
+                        
+            avg_salary.Enabled = true;
+            employees_vacation.Enabled = false;
+            Show_Employees.Enabled = true;
+            Show_Vacations.Enabled = true;
+            Insert_StripButton.Enabled = false;
+            Update_StripButton.Enabled = false;
+            Delete_StripButton.Enabled = false;
+            Update_DB.Enabled = false;
 
             Form1_Load();
         }
