@@ -185,7 +185,7 @@ namespace Human_Resources_Department_DB
             this.Controls.Add(this.FIO_textBox);
             this.Controls.Add(this.label1);
             this.Name = "INSERT";
-            this.Text = "INSERT";
+            this.Text = "Добавить сотрудника";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -162,7 +162,7 @@ namespace Human_Resources_Department_DB
             this.Controls.Add(this.FIO_employee_textBox);
             this.Controls.Add(this.label1);
             this.Name = "INSERT_PERS";
-            this.Text = "INSERT_PERS";
+            this.Text = "Добавить отпуск сотруднику";
             this.ResumeLayout(false);
             this.PerformLayout();
 

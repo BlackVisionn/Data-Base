@@ -185,7 +185,8 @@ namespace Human_Resources_Department_DB
             this.Controls.Add(this.FIO_textBox);
             this.Controls.Add(this.label1);
             this.Name = "UPDATE";
-            this.Text = "UPDATE";
+            this.Text = "Обновить данные о сотруднике";
+            this.Load += new System.EventHandler(this.UPDATE_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

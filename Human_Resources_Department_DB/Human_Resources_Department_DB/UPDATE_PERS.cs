@@ -53,5 +53,39 @@ namespace Human_Resources_Department_DB
         {
             Close();
         }
+
+        private void UPDATE_PERS_Load(object sender, EventArgs e)
+        {
+            MySqlDataReader sqlReader = null;
+
+            MySqlCommand getEmployeesInfoCommand = new MySqlCommand("SELECT full_name, type_of_vacation, vacation_start_date, number_of_vacation_days, basis_of_vacation FROM vacation JOIN employees ON vacation.idemployees = employees.idemployees WHERE idvacation=@id;", connection);
+
+            getEmployeesInfoCommand.Parameters.AddWithValue("id", id);
+            try
+            {
+                sqlReader = getEmployeesInfoCommand.ExecuteReader();
+
+                while (sqlReader.Read())
+                {
+                    FIO_employee_textBox.Text = Convert.ToString(sqlReader["full_name"]);
+                    VacationType_textBox.Text = Convert.ToString(sqlReader["type_of_vacation"]);
+                    StartDate.Text = Convert.ToString(sqlReader["vacation_start_date"]);
+                    NumberDays_textBox.Text = Convert.ToString(sqlReader["number_of_vacation_days"]);
+                    Basis_textBox.Text = Convert.ToString(sqlReader["basis_of_vacation"]);                    
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (sqlReader != null && !sqlReader.IsClosed)
+                {
+                    sqlReader.Close();
+                }
+            }
+        }
     }
 }
