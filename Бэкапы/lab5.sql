@@ -189,3 +189,32 @@ JOIN vacation ON employees.idemployees = vacation.idemployees;
 SELECT * FROM employees_vacation
 ORDER BY number_of_vacation_days DESC;
 
+# Вывести ЗП сотрудника в выбранной организации и рассчитать среднюю ЗП
+DELIMITER $$
+CREATE PROCEDURE Show_avg_salary (IN org VARCHAR(45), OUT avg_salary INT)
+BEGIN
+	SELECT full_name, name_of_organization, salary
+	FROM employees
+	JOIN contract ON employees.idemployees = contract.idemployee
+	JOIN position_to_organization ON contract.idposition_to_organization = position_to_organization.idposition_to_organization
+	JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization
+    WHERE name_of_organization = org;
+    
+    SELECT AVG(salary) INTO avg_salary
+    FROM position_to_organization
+    JOIN organizationn ON position_to_organization.idorganization = organizationn.idorganization
+    WHERE name_of_organization = org;
+END $$
+DELIMITER ;
+
+CALL Show_avg_salary('etiam', @avg_salary);
+SELECT @avg_salary;
+
+# Вывод сотрудников их образования, специальности и квалификации
+CREATE VIEW employees_diploma
+AS
+SELECT full_name, education, speciality, qualification
+FROM employees
+JOIN diploma_of_education ON employees.idemployees = diploma_of_education.idemployees;
+
+SELECT * FROM employees_diploma;
