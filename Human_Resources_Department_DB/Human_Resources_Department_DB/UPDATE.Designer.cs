@@ -71,36 +71,36 @@ namespace Human_Resources_Department_DB
             this.Number_label.AutoSize = true;
             this.Number_label.Location = new System.Drawing.Point(12, 187);
             this.Number_label.Name = "Number_label";
-            this.Number_label.Size = new System.Drawing.Size(94, 13);
+            this.Number_label.Size = new System.Drawing.Size(99, 13);
             this.Number_label.TabIndex = 47;
-            this.Number_label.Text = "Personnel Number";
+            this.Number_label.Text = "Табельный номер";
             // 
             // Phone_label
             // 
             this.Phone_label.AutoSize = true;
             this.Phone_label.Location = new System.Drawing.Point(12, 154);
             this.Phone_label.Name = "Phone_label";
-            this.Phone_label.Size = new System.Drawing.Size(78, 13);
+            this.Phone_label.Size = new System.Drawing.Size(93, 13);
             this.Phone_label.TabIndex = 46;
-            this.Phone_label.Text = "Phone Number";
+            this.Phone_label.Text = "Номер телефона";
             // 
             // Address_label
             // 
             this.Address_label.AutoSize = true;
             this.Address_label.Location = new System.Drawing.Point(12, 119);
             this.Address_label.Name = "Address_label";
-            this.Address_label.Size = new System.Drawing.Size(76, 13);
+            this.Address_label.Size = new System.Drawing.Size(95, 13);
             this.Address_label.TabIndex = 45;
-            this.Address_label.Text = "Home Address";
+            this.Address_label.Text = "Домашний адрес";
             // 
             // Experience_label
             // 
             this.Experience_label.AutoSize = true;
             this.Experience_label.Location = new System.Drawing.Point(12, 86);
             this.Experience_label.Name = "Experience_label";
-            this.Experience_label.Size = new System.Drawing.Size(60, 13);
+            this.Experience_label.Size = new System.Drawing.Size(73, 13);
             this.Experience_label.TabIndex = 44;
-            this.Experience_label.Text = "Experience";
+            this.Experience_label.Text = "Стаж работы";
             // 
             // update_btn
             // 
@@ -134,9 +134,9 @@ namespace Human_Resources_Department_DB
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 14);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 13);
+            this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 39;
-            this.label1.Text = "Full Name";
+            this.label1.Text = "ФИО Сотрудника";
             // 
             // Gender_label
             // 
@@ -144,7 +144,7 @@ namespace Human_Resources_Department_DB
             this.Gender_label.Name = "Gender_label";
             this.Gender_label.Size = new System.Drawing.Size(100, 23);
             this.Gender_label.TabIndex = 57;
-            this.Gender_label.Text = "Gender";
+            this.Gender_label.Text = "Пол";
             // 
             // Gender_comboBox
             // 

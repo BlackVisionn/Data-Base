@@ -90,36 +90,36 @@ namespace Human_Resources_Department_DB
             this.Number_label.AutoSize = true;
             this.Number_label.Location = new System.Drawing.Point(16, 188);
             this.Number_label.Name = "Number_label";
-            this.Number_label.Size = new System.Drawing.Size(94, 13);
+            this.Number_label.Size = new System.Drawing.Size(99, 13);
             this.Number_label.TabIndex = 66;
-            this.Number_label.Text = "Personnel Number";
+            this.Number_label.Text = "Табельный номер";
             // 
             // Phone_label
             // 
             this.Phone_label.AutoSize = true;
             this.Phone_label.Location = new System.Drawing.Point(16, 155);
             this.Phone_label.Name = "Phone_label";
-            this.Phone_label.Size = new System.Drawing.Size(78, 13);
+            this.Phone_label.Size = new System.Drawing.Size(93, 13);
             this.Phone_label.TabIndex = 65;
-            this.Phone_label.Text = "Phone Number";
+            this.Phone_label.Text = "Номер телефона";
             // 
             // Address_label
             // 
             this.Address_label.AutoSize = true;
             this.Address_label.Location = new System.Drawing.Point(16, 120);
             this.Address_label.Name = "Address_label";
-            this.Address_label.Size = new System.Drawing.Size(76, 13);
+            this.Address_label.Size = new System.Drawing.Size(89, 13);
             this.Address_label.TabIndex = 64;
-            this.Address_label.Text = "Home Address";
+            this.Address_label.Text = "Домаший адрес";
             // 
             // Experience_label
             // 
             this.Experience_label.AutoSize = true;
             this.Experience_label.Location = new System.Drawing.Point(16, 87);
             this.Experience_label.Name = "Experience_label";
-            this.Experience_label.Size = new System.Drawing.Size(60, 13);
+            this.Experience_label.Size = new System.Drawing.Size(73, 13);
             this.Experience_label.TabIndex = 63;
-            this.Experience_label.Text = "Experience";
+            this.Experience_label.Text = "Стаж работы";
             // 
             // Gender_label
             // 
@@ -127,25 +127,25 @@ namespace Human_Resources_Department_DB
             this.Gender_label.Name = "Gender_label";
             this.Gender_label.Size = new System.Drawing.Size(100, 23);
             this.Gender_label.TabIndex = 71;
-            this.Gender_label.Text = "Gender";
+            this.Gender_label.Text = "Пол";
             // 
             // insert_btn
             // 
-            this.insert_btn.Location = new System.Drawing.Point(191, 291);
+            this.insert_btn.Location = new System.Drawing.Point(129, 229);
             this.insert_btn.Name = "insert_btn";
             this.insert_btn.Size = new System.Drawing.Size(84, 33);
             this.insert_btn.TabIndex = 62;
-            this.insert_btn.Text = "Insert";
+            this.insert_btn.Text = "Добавить";
             this.insert_btn.UseVisualStyleBackColor = true;
             this.insert_btn.Click += new System.EventHandler(this.insert_btn_Click);
             // 
             // cancel_bth
             // 
-            this.cancel_bth.Location = new System.Drawing.Point(281, 291);
+            this.cancel_bth.Location = new System.Drawing.Point(219, 229);
             this.cancel_bth.Name = "cancel_bth";
             this.cancel_bth.Size = new System.Drawing.Size(87, 33);
             this.cancel_bth.TabIndex = 61;
-            this.cancel_bth.Text = "Cancel";
+            this.cancel_bth.Text = "Отмена";
             this.cancel_bth.UseVisualStyleBackColor = true;
             this.cancel_bth.Click += new System.EventHandler(this.cancel_bth_Click);
             // 
@@ -161,15 +161,15 @@ namespace Human_Resources_Department_DB
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(16, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 13);
+            this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 59;
-            this.label1.Text = "Full Name";
+            this.label1.Text = "ФИО Сотрудника";
             // 
             // INSERT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(447, 368);
+            this.ClientSize = new System.Drawing.Size(419, 343);
             this.Controls.Add(this.Gender_comboBox);
             this.Controls.Add(this.Number_textBox);
             this.Controls.Add(this.Phone_textBox);
